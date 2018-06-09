@@ -87,6 +87,7 @@
 
     <!-- Card editor -->
     <string name="cardeditor_title_add_note">Add note</string>
+    <string name="cardeditor_title_edit_card_rich">Edit note rich</string>
     <string name="cardeditor_title_edit_card">Edit note</string>
     <string name="discard_unsaved_changes">Close and lose current input?</string>
     <string name="factadder_saving_error">Error saving note</string>
@@ -112,6 +113,7 @@
 
     <string name="studyoptions_welcome_title">Welcome to AnkiDroid</string>
     <string name="fact_adder_intent_title">AnkiDroid card</string>
+    <string name="card_editor_add_card_rich">Add rich note</string>
     <string name="card_editor_add_card">Add note</string>
     <string name="card_editor_copy_card">Copy card</string>
     <string name="card_editor_reposition_card">Reposition</string>

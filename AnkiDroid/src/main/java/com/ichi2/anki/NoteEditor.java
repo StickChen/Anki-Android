@@ -854,7 +854,7 @@ public class NoteEditor extends AnkiActivity {
             menu.findItem(R.id.action_add_card_from_card_editor).setVisible(true);
             menu.findItem(R.id.action_reset_card_progress).setVisible(true);
             menu.findItem(R.id.action_reschedule_card).setVisible(true);
-            if (mCurrentEditedCard.getType() == Card.TYPE_NEW) {
+            if (mCurrentEditedCard != null && mCurrentEditedCard.getType() == Card.TYPE_NEW) {
                 menu.findItem(R.id.action_reposition_card).setVisible(true);
             }
         }

@@ -18,11 +18,7 @@
 
 package com.ichi2.anki;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -33,23 +29,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
+import android.view.*;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
-
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ichi2.anim.ActivityTransitionAnimation;
@@ -71,19 +55,12 @@ import com.ichi2.libanki.Utils;
 import com.ichi2.themes.Themes;
 import com.ichi2.upgrade.Upgrade;
 import com.ichi2.widget.WidgetStatus;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import timber.log.Timber;
+
+import java.util.*;
+import java.util.regex.Pattern;
 
 public class CardBrowser extends NavigationDrawerActivity implements
         DeckDropDownAdapter.SubtitleListener {
@@ -96,6 +73,7 @@ public class CardBrowser extends NavigationDrawerActivity implements
     private MultiColumnListAdapter mCardsAdapter;
     private String mSearchTerms;
     private String mRestrictOnDeck;
+    public static Long mRestrictOnDeckId;
 
     private MenuItem mSearchItem;
     private MenuItem mSaveSearchItem;
@@ -211,6 +189,13 @@ public class CardBrowser extends NavigationDrawerActivity implements
                     previewer.putExtra("index", mPositionInCardsList);
                     previewer.putExtra("cardList", getCardIds());
                     startActivityWithoutAnimation(previewer);
+                    return;
+                case CardBrowserContextMenu.CONTEXT_MENU_FULL_EDIT:
+                    // 跳转原来的编辑页
+                    Intent editCard = new Intent(CardBrowser.this, NoteEditor.class);
+                    editCard.putExtra(NoteEditor.EXTRA_CALLER, NoteEditor.CALLER_CARDBROWSER_EDIT);
+                    editCard.putExtra(NoteEditor.EXTRA_CARD_ID, card.getId());
+                    startActivityForResultWithAnimation(editCard, EDIT_CARD, ActivityTransitionAnimation.LEFT);
             }
         }
     };
@@ -493,10 +478,12 @@ public class CardBrowser extends NavigationDrawerActivity implements
                 long cardId = Long.parseLong(getCards().get(mPositionInCardsList).get("id"));
                 sCardBrowserCard = getCol().getCard(cardId);
                 // start note editor using the card we just loaded
-                Intent editCard = new Intent(CardBrowser.this, NoteEditor.class);
+                // TODO-cxl
+                Intent editCard = new Intent(CardBrowser.this, NoteRichEditor.class);
                 editCard.putExtra(NoteEditor.EXTRA_CALLER, NoteEditor.CALLER_CARDBROWSER_EDIT);
                 editCard.putExtra(NoteEditor.EXTRA_CARD_ID, sCardBrowserCard.getId());
                 startActivityForResultWithAnimation(editCard, EDIT_CARD, ActivityTransitionAnimation.LEFT);
+
             }
         });
         mCardsListView.setOnItemLongClickListener(new OnItemLongClickListener() {
@@ -520,7 +507,10 @@ public class CardBrowser extends NavigationDrawerActivity implements
         mSearchTerms = "";
 
         // set the currently selected deck
-        selectDropDownItem(getDeckPositionFromDeckId(getIntent().getLongExtra("defaultDeckId", -1)));
+        if (mRestrictOnDeckId == null) {
+            mRestrictOnDeckId = getIntent().getLongExtra("defaultDeckId", -1);
+        }
+        selectDropDownItem(getDeckPositionFromDeckId(mRestrictOnDeckId));
     }
 
 
@@ -644,6 +634,11 @@ public class CardBrowser extends NavigationDrawerActivity implements
         }
         switch (item.getItemId()) {
 
+            case R.id.action_add_card_from_card_browser_rich:
+                Intent intentRich = new Intent(CardBrowser.this, NoteRichEditor.class);
+                intentRich.putExtra(NoteEditor.EXTRA_CALLER, NoteEditor.CALLER_CARDBROWSER_ADD);
+                startActivityForResultWithAnimation(intentRich, ADD_NOTE, ActivityTransitionAnimation.LEFT);
+                return true;
             case R.id.action_add_card_from_card_browser:
                 Intent intent = new Intent(CardBrowser.this, NoteEditor.class);
                 intent.putExtra(NoteEditor.EXTRA_CALLER, NoteEditor.CALLER_CARDBROWSER_ADD);
@@ -799,7 +794,8 @@ public class CardBrowser extends NavigationDrawerActivity implements
                 throw new RuntimeException();
             }
             try {
-                getCol().getDecks().select(deck.getLong("id"));
+                mRestrictOnDeckId = deck.getLong("id");     // 设置deskId
+                getCol().getDecks().select(mRestrictOnDeckId);
             } catch (JSONException e) {
                 Timber.e(e, "Could not get ID from deck");
             }
@@ -1117,7 +1113,7 @@ public class CardBrowser extends NavigationDrawerActivity implements
         @Override
         public void onPostExecute(TaskData result) {
             if (result != null) {
-                hideProgressBar();
+//                hideProgressBar();
                 mCardsAdapter.notifyDataSetChanged();
                 Timber.d("Completed doInBackgroundRenderBrowserQA Successfuly");
             } else {
@@ -1164,7 +1160,7 @@ public class CardBrowser extends NavigationDrawerActivity implements
                 // Note: max value of lastVisibleItem is totalItemCount, so need to subtract 1
                 String lastAns = getCards().get(lastVisibleItem - 1).get("answer");
                 if (firstAns != null && firstAns.equals("") || lastAns != null && lastAns.equals("")) {
-                    showProgressBar();
+//                    showProgressBar();
                     // Also start rendering the items on the screen every 300ms while scrolling
                     long currentTime = SystemClock.elapsedRealtime ();
                     if ((currentTime - mLastRenderStart > 300 || lastVisibleItem >= totalItemCount)) {

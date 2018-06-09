@@ -23,53 +23,29 @@ package com.ichi2.anki;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.os.SystemClock;
-import android.os.Vibrator;
+import android.os.*;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.ActionBar;
 import android.text.ClipboardManager;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.SpannedString;
-import android.text.TextUtils;
+import android.text.*;
 import android.text.style.UnderlineSpan;
 import android.util.TypedValue;
 import android.view.GestureDetector.SimpleOnGestureListener;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
-import android.widget.Chronometer;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
+import android.widget.*;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.util.TypefaceHelper;
 import com.ichi2.anim.ActivityTransitionAnimation;
@@ -78,20 +54,14 @@ import com.ichi2.anki.receiver.SdCardReceiver;
 import com.ichi2.anki.reviewer.ReviewerExtRegistry;
 import com.ichi2.async.DeckTask;
 import com.ichi2.compat.CompatHelper;
-import com.ichi2.libanki.Card;
-import com.ichi2.libanki.Collection;
-import com.ichi2.libanki.Consts;
-import com.ichi2.libanki.Note;
-import com.ichi2.libanki.Sched;
-import com.ichi2.libanki.Sound;
-import com.ichi2.libanki.Utils;
+import com.ichi2.libanki.*;
 import com.ichi2.themes.HtmlColors;
 import com.ichi2.themes.Themes;
 import com.ichi2.utils.DiffEngine;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import timber.log.Timber;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -104,8 +74,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import timber.log.Timber;
 
 public abstract class AbstractFlashcardViewer extends NavigationDrawerActivity {
 
@@ -1143,6 +1111,13 @@ public abstract class AbstractFlashcardViewer extends NavigationDrawerActivity {
     }
 
 
+    protected boolean editRichCard() {
+        Intent editCard = new Intent(AbstractFlashcardViewer.this, NoteRichEditor.class);
+        editCard.putExtra(NoteEditor.EXTRA_CALLER, NoteEditor.CALLER_REVIEWER);
+        sEditorCard = mCurrentCard;
+        startActivityForResultWithAnimation(editCard, EDIT_CURRENT_CARD, ActivityTransitionAnimation.LEFT);
+        return true;
+    }
     protected boolean editCard() {
         Intent editCard = new Intent(AbstractFlashcardViewer.this, NoteEditor.class);
         editCard.putExtra(NoteEditor.EXTRA_CALLER, NoteEditor.CALLER_REVIEWER);

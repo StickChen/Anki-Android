@@ -26,14 +26,14 @@
                     android:id="@+id/browser_column1_spinner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     app:popupTheme="@style/ActionBar.Popup"/>
 
                 <Spinner
                     android:id="@+id/browser_column2_spinner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="5"
                     app:popupTheme="@style/ActionBar.Popup"/>
             </LinearLayout>
 

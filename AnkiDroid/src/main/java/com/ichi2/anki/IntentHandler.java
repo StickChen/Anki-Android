@@ -7,24 +7,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.provider.OpenableColumns;
-import android.support.v4.content.IntentCompat;
-
 import com.afollestad.materialdialogs.MaterialDialog;
-
 import com.ichi2.anim.ActivityTransitionAnimation;
 import com.ichi2.anki.dialogs.DialogHandler;
 import com.ichi2.anki.services.ReminderService;
+import timber.log.Timber;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
-import timber.log.Timber;
 
 /**
  * Class which handles how the application responds to different intents, forcing it to always be single task,
@@ -139,9 +130,14 @@ public class IntentHandler extends Activity {
         } else {
             // Launcher intents should start DeckPicker if no other task exists,
             // otherwise go to previous task
+
+            // 改成打开卡片浏览页
+            reloadIntent = new Intent(this, CardBrowser.class);
+            reloadIntent.setDataAndType(getIntent().getData(), getIntent().getType());
+
             reloadIntent.setAction(Intent.ACTION_MAIN);
             reloadIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-            reloadIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+            reloadIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivityIfNeeded(reloadIntent, 0);
             finishWithFade();
         }

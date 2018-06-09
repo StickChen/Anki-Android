@@ -16,23 +16,20 @@
 package com.ichi2.anki.dialogs;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
-
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.ichi2.anki.AnkiActivity;
-import com.ichi2.anki.CollectionHelper;
-import com.ichi2.anki.DeckPicker;
-import com.ichi2.anki.R;
-import com.ichi2.anki.StudyOptionsFragment;
+import com.ichi2.anki.*;
 import com.ichi2.libanki.Collection;
+import timber.log.Timber;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import timber.log.Timber;
+import static com.ichi2.anki.NavigationDrawerActivity.REQUEST_BROWSE_CARDS;
 
 public class DeckPickerContextMenu extends DialogFragment {
     /**
@@ -46,6 +43,7 @@ public class DeckPickerContextMenu extends DialogFragment {
     private static final int CONTEXT_MENU_UNBURY = 5;
     private static final int CONTEXT_MENU_CUSTOM_STUDY_REBUILD = 6;
     private static final int CONTEXT_MENU_CUSTOM_STUDY_EMPTY = 7;
+    private static final int CONTEXT_MENU_CARD_BROWSER = 8;
 
 
     public static DeckPickerContextMenu newInstance(long did) {
@@ -77,6 +75,7 @@ public class DeckPickerContextMenu extends DialogFragment {
     private HashMap<Integer, String> getKeyValueMap() {
         Resources res = getResources();
         HashMap<Integer, String> keyValueMap = new HashMap<>();
+        keyValueMap.put(CONTEXT_MENU_CARD_BROWSER, "卡片浏览");
         keyValueMap.put(CONTEXT_MENU_RENAME_DECK, res.getString(R.string.rename_deck));
         keyValueMap.put(CONTEXT_MENU_DECK_OPTIONS, res.getString(R.string.study_options));
         keyValueMap.put(CONTEXT_MENU_CUSTOM_STUDY, res.getString(R.string.custom_study));
@@ -119,6 +118,12 @@ public class DeckPickerContextMenu extends DialogFragment {
         public void onSelection(MaterialDialog materialDialog, View view, int item,
                 CharSequence charSequence) {
             switch (view.getId()) {
+                case CONTEXT_MENU_CARD_BROWSER:
+                    Intent cardBrowser = new Intent(view.getContext(), CardBrowser.class);
+                    Collection c = CollectionHelper.getInstance().getCol(getContext());
+                    cardBrowser.putExtra("selectedDeck", c.getDecks().selected());
+                    startActivityForResult(cardBrowser, REQUEST_BROWSE_CARDS);
+                    break;
                 case CONTEXT_MENU_DELETE_DECK:
                     Timber.i("Delete deck selected");
                     ((DeckPicker) getActivity()).confirmDeckDeletion();

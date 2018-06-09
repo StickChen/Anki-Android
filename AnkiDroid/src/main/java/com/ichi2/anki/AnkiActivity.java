@@ -11,14 +11,8 @@ import android.graphics.Color;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.*;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.IntentCompat;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -26,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.widget.ProgressBar;
-
 import com.ichi2.anim.ActivityTransitionAnimation;
 import com.ichi2.anki.dialogs.AsyncDialogFragment;
 import com.ichi2.anki.dialogs.DialogHandler;
@@ -36,7 +29,6 @@ import com.ichi2.compat.CompatHelper;
 import com.ichi2.compat.customtabs.CustomTabActivityHelper;
 import com.ichi2.libanki.Collection;
 import com.ichi2.themes.Themes;
-
 import timber.log.Timber;
 
 public class AnkiActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Collection>,
@@ -434,7 +426,7 @@ public class AnkiActivity extends AppCompatActivity implements LoaderManager.Loa
             }
             // Creates an explicit intent for an Activity in your app
             Intent resultIntent = new Intent(this, DeckPicker.class);
-            resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+            resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             builder.setContentIntent(resultPendingIntent);
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

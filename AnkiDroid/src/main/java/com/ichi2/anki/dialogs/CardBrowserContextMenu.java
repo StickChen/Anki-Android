@@ -17,6 +17,7 @@ public class CardBrowserContextMenu extends DialogFragment {
     public static final int CONTEXT_MENU_SUSPEND = 1;
     public static final int CONTEXT_MENU_DELETE = 2;
     public static final int CONTEXT_MENU_DETAILS = 3;
+    public static final int CONTEXT_MENU_FULL_EDIT = 4;
     private static final int MAX_TITLE_LENGTH = 75;
 
     private static MaterialDialog.ListCallback mContextMenuListener;
@@ -39,7 +40,7 @@ public class CardBrowserContextMenu extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Resources res = getResources();
-        String[] entries = new String[4];
+        String[] entries = new String[5];
         entries[CONTEXT_MENU_DELETE] = res.getString(R.string.card_browser_delete_card);
         entries[CONTEXT_MENU_DETAILS] = res.getString(R.string.card_editor_preview_card);
         entries[CONTEXT_MENU_MARK] = res.getString(
@@ -50,6 +51,7 @@ public class CardBrowserContextMenu extends DialogFragment {
                 getArguments().getBoolean("isSuspended") ?
                         R.string.card_browser_unsuspend_card :
                         R.string.card_browser_suspend_card);
+        entries[CONTEXT_MENU_FULL_EDIT] = "完整编辑";
         // Ellipsize the title if it's obscenely long
         String title = getArguments().getString("dialogTitle");
         if (title != null && title.length() > MAX_TITLE_LENGTH) {

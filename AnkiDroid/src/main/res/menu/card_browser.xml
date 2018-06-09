@@ -2,9 +2,9 @@
     xmlns:ankidroid="http://schemas.android.com/apk/res-auto" >
 
     <item
-        android:id="@+id/action_add_card_from_card_browser"
+        android:id="@+id/action_add_card_from_card_browser_rich"
         android:icon="@drawable/ic_add_white_24dp"
-        android:title="@string/card_editor_add_card"
+        android:title="@string/card_editor_add_card_rich"
         ankidroid:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_search"
@@ -13,6 +13,11 @@
         ankidroid:actionViewClass="android.support.v7.widget.SearchView"
         ankidroid:showAsAction="always|collapseActionView"/>
 
+    <item
+            android:id="@+id/action_add_card_from_card_browser"
+            android:icon="@drawable/ic_add_white_24dp"
+            android:title="@string/card_editor_add_card"
+            ankidroid:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_save_search"
         android:title="@string/card_browser_list_my_searches_save"/>

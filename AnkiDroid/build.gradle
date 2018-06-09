@@ -2,26 +2,26 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.github.triplet.play'
 def homePath = System.properties['user.home']
 android {
-    compileSdkVersion 26
-
+    compileSdkVersion 27
+    signingConfigs {
+        release {
+            storeFile file('D:/Dev_Tools/Android/LifeGo.jks')
+            keyAlias 'LifeGo'
+            storePassword '123456'
+            keyPassword '123456789'
+        }
+    }
     defaultConfig {
         applicationId "com.ichi2.anki"
-        minSdkVersion 15
+        minSdkVersion 21
         targetSdkVersion 25
         testApplicationId "com.ichi2.anki.tests"
         vectorDrawables.useSupportLibrary = true
+        signingConfig signingConfigs.release
     }
     lintOptions {
         abortOnError false
         disable 'TypographyEllipsis'
-    }
-    signingConfigs {
-        release {
-            storeFile file("${homePath}/src/android-keystore")
-            keyAlias "nrkeystorealias"
-            storePassword System.getenv("KSTOREPWD")
-            keyPassword System.getenv("KEYPWD")
-        }
     }
     buildTypes {
         release {
@@ -29,12 +29,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
+        debug {
+            signingConfig signingConfigs.release
+        }
     }
     useLibrary 'org.apache.http.legacy'
-
     dexOptions {
         // Skip pre-dexing when running on Travis CI or when disabled via -Dpre-dex=false.
         preDexLibraries = preDexEnabled && !travisBuild
+    }
+    productFlavors {
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -46,12 +54,12 @@ play {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.1.0'
     // Note: the design support library can be quite buggy, so test everything thoroughly before updating it
-    implementation 'com.android.support:design:26.1.0'
-    implementation 'com.android.support:customtabs:26.1.0'
-    implementation 'com.android.support:recyclerview-v7:26.1.0'
+    implementation 'com.android.support:design:27.1.0'
+    implementation 'com.android.support:customtabs:27.1.0'
+    implementation 'com.android.support:recyclerview-v7:27.1.0'
     implementation 'io.requery:sqlite-android:3.16.0'
     implementation('com.afollestad.material-dialogs:core:0.8.6.2@aar') {
         //exclude group: 'com.android.support'  // uncomment to force our local support lib version
@@ -62,13 +70,13 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:2.7.1'
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'org.jsoup:jsoup:1.10.3'
-    api project(":api")
-
+    api project(':api')
+    implementation 'com.1gravity:android-rteditor:1.6.7'
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:1.10.19' // v1 while PowerMock does not fully support v2.
+    testImplementation 'org.mockito:mockito-core:1.10.19'
+    // v1 while PowerMock does not fully support v2.
     testImplementation 'org.powermock:powermock-core:1.6.5'
     testImplementation 'org.powermock:powermock-module-junit4:1.6.5'
     testImplementation 'org.powermock:powermock-api-mockito:1.6.5'
     testImplementation 'org.hamcrest:hamcrest-all:1.3'
-
 }

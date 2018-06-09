@@ -95,4 +95,14 @@
     <color name="material_deep_purple_400">#ff7E57C2</color>
 
     <color name="material_theme_grey">#303030</color>
+
+    <!-- Light Colors -->
+    <color name="colorPrimaryLight">#CFD8DC</color>
+    <color name="colorAccentLight">#37474F</color>
+    <color name="colorPrimaryDarkLight">#90A4AE</color>
+
+    <!-- Dark Colors -->
+    <color name="colorPrimaryDark">#3F51B5</color>
+    <color name="colorAccentDark">#ECEFF1</color>
+    <color name="colorPrimaryDarkDark">#1A237E</color>
 </resources>
