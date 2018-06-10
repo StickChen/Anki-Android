@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.github.triplet.play'
 def homePath = System.properties['user.home']
 android {
-    compileSdkVersion 27
+    compileSdkVersion 26
     signingConfigs {
         release {
             storeFile file('D:/Dev_Tools/Android/LifeGo.jks')
@@ -13,7 +13,7 @@ android {
     }
     defaultConfig {
         applicationId "com.ichi2.anki"
-        minSdkVersion 21
+        minSdkVersion 15
         targetSdkVersion 25
         testApplicationId "com.ichi2.anki.tests"
         vectorDrawables.useSupportLibrary = true
