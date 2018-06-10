@@ -1,54 +1,301 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusable="true"
         android:focusableInTouchMode="true">
 
-        <EditText
-                android:id="@+id/note_front"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="top"
-                android:layout_alignParentStart="true"
-                android:imeOptions="actionDone|flagNoEnterAction"
-                android:inputType="textAutoCorrect|textCapSentences"
-                android:maxLines="1" android:layout_margin="0dp" />
+    <EditText
+            android:id="@+id/note_front"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:imeOptions="actionDone|flagNoEnterAction"
+            android:inputType="textAutoCorrect|textCapSentences"
+            android:paddingLeft="10dp"
+            android:maxLines="1"/>
 
-        <ScrollView
-                android:id="@+id/rte_content"
+    <ScrollView
+            android:id="@+id/note_back_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/note_front"
+            android:layout_above="@id/rte_toolbar_container"
+            android:fillViewport="true"
+            android:orientation="vertical">
+        <jp.wasabeef.richeditor.RichEditor
+                android:id="@+id/note_back"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="600sp"
-                android:layout_above="@id/rte_toolbar_container"
-                android:layout_below="@id/note_front"
-                android:layout_margin="2dp"
-                android:fillViewport="true"
                 android:background="@null"
-                android:scrollbarStyle="insideOverlay">
+        />
+    </ScrollView>
 
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" >
 
-                <com.onegravity.rteditor.RTEditText
-                        android:id="@+id/note_back"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="top"
-                        android:textSize="16sp"
-                        android:background="@null"
-                        android:imeOptions="actionDone|flagNoEnterAction"
-                        android:inputType="textMultiLine|textAutoCorrect|textCapSentences" />
-
-            </LinearLayout>
-
-        </ScrollView>
-        <include
+    <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#cecece"
             android:id="@+id/rte_toolbar_container"
-            layout="@layout/rte_toolbar"/>
+            android:layout_alignParentBottom="true"
+            android:scrollbars="none"
+            android:visibility="gone"
+    >
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+        >
+
+            <ImageButton
+                    android:id="@+id/action_undo"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/undo"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_redo"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/redo"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_bold"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/bold"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_italic"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/italic"
+            />
+
+
+            <ImageButton
+                    android:id="@+id/action_strikethrough"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/strikethrough"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_underline"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/underline"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_heading1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/h1"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_heading2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/h2"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_heading3"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/h3"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_heading4"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/h4"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_heading5"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/h5"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_heading6"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/h6"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_txt_color"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/txt_color"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_bg_color"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/bg_color"
+            />
+
+
+            <ImageButton
+                    android:id="@+id/action_indent"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/indent"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_outdent"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/outdent"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_align_left"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/justify_left"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_align_center"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/justify_center"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_align_right"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/justify_right"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_insert_bullets"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/bullets"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_insert_numbers"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/numbers"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_blockquote"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/blockquote"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_insert_image"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/insert_image"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_insert_link"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/insert_link"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_insert_checkbox"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@android:drawable/checkbox_on_background"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_subscript"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/subscript"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_superscript"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/superscript"
+            />
+        </LinearLayout>
+    </HorizontalScrollView>
 
 </RelativeLayout>

@@ -1,23 +1,16 @@
 package com.ichi2.anki;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.ViewGroup;
+import android.view.View;
 import android.widget.EditText;
 import com.ichi2.anim.ActivityTransitionAnimation;
 import com.ichi2.async.DeckTask;
 import com.ichi2.libanki.Card;
 import com.ichi2.libanki.Note;
-import com.onegravity.rteditor.RTEditText;
-import com.onegravity.rteditor.RTManager;
-import com.onegravity.rteditor.RTToolbar;
-import com.onegravity.rteditor.api.RTApi;
-import com.onegravity.rteditor.api.RTMediaFactoryImpl;
-import com.onegravity.rteditor.api.RTProxyImpl;
-import com.onegravity.rteditor.api.format.RTFormat;
+import jp.wasabeef.richeditor.RichEditor;
 import org.json.JSONException;
 import org.json.JSONObject;
 import timber.log.Timber;
@@ -29,7 +22,6 @@ import static com.ichi2.anki.NoteEditor.CALLER_NOCALLER;
  */
 public class NoteRichEditor extends AnkiActivity {
 
-	private RTEditText rtEditText;
 	public static final String PARAM_BACK = "back";
 	public static final String PARAM_FRONT = "front";
 	private EditText noteFront;
@@ -39,7 +31,8 @@ public class NoteRichEditor extends AnkiActivity {
 	private boolean mAddNote;
 	private String mFront;
 	private String mBack;
-	private boolean backChanged;
+	private boolean mBackChanged;
+	private RichEditor mEditor;
 	private DeckTask.Listener mAddNoteListener = new DeckTask.Listener() {
 		@Override public void onPreExecute(DeckTask task) {
 
@@ -60,7 +53,7 @@ public class NoteRichEditor extends AnkiActivity {
 
 		}
 	};
-
+	private View toolbarContainer;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -101,43 +94,215 @@ public class NoteRichEditor extends AnkiActivity {
 
 		// set subject
 		noteFront = findViewById(R.id.note_front);
+
+		initRichEditor();
+
 		if (mEditorNote != null) {
 			mFront = mEditorNote.getItem("Front");
 			noteFront.setText(mFront);
-		}
-
-		// create RTManager
-		RTApi rtApi = new RTApi(this, new RTProxyImpl(this), new RTMediaFactoryImpl(this, true));
-		RTManager rtManager = new RTManager(rtApi, savedInstanceState);
-
-		// register toolbar
-		ViewGroup toolbarContainer = (ViewGroup) findViewById(R.id.rte_toolbar_container);
-		RTToolbar rtToolbar = (RTToolbar) findViewById(R.id.rte_toolbar);
-		if (rtToolbar != null) {
-			rtManager.registerToolbar(toolbarContainer, rtToolbar);
-		}
-
-		// register editor & set text
-		rtEditText = (RTEditText) findViewById(R.id.note_back);
-		rtManager.registerEditor(rtEditText, true);
-		if (mEditorNote != null) {
 			mBack = mEditorNote.getItem("Back");
-			rtEditText.setRichTextEditing(true, mBack);
+			mEditor.setHtml(mBack);
 		}
 
-		rtEditText.addTextChangedListener(new TextWatcher() {
-			@Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+	}
 
-			}
+	private void initRichEditor() {
 
-			@Override public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-			}
-
-			@Override public void afterTextChanged(Editable s) {
-				backChanged = true;
+		mEditor = (RichEditor) findViewById(R.id.note_back);
+//		mEditor.setEditorHeight(200);
+//		mEditor.setEditorFontSize(22);
+//		mEditor.setEditorFontColor(Color.RED);
+		//mEditor.setEditorBackgroundColor(Color.BLUE);
+		//mEditor.setBackgroundColor(Color.BLUE);
+		//mEditor.setBackgroundResource(R.drawable.bg);
+		mEditor.setPadding(10, 10, 10, 10);
+		//mEditor.setBackground("https://raw.githubusercontent.com/wasabeef/art/master/chip.jpg");
+//		mEditor.setPlaceholder("");
+		//mEditor.setInputEnabled(false);
+		toolbarContainer = findViewById(R.id.rte_toolbar_container);
+		mEditor.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					toolbarContainer.setVisibility(View.VISIBLE);
+				}else {
+					toolbarContainer.setVisibility(View.GONE);
+				}
 			}
 		});
+		mEditor.setOnTextChangeListener(new RichEditor.OnTextChangeListener() {
+			@Override public void onTextChange(String text) {
+				mBackChanged = true;
+			}
+		});
+
+		findViewById(R.id.action_undo).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				mEditor.undo();
+			}
+		});
+
+		findViewById(R.id.action_redo).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				mEditor.redo();
+			}
+		});
+
+		findViewById(R.id.action_bold).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				mEditor.setBold();
+			}
+		});
+
+		findViewById(R.id.action_italic).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				mEditor.setItalic();
+			}
+		});
+
+		findViewById(R.id.action_subscript).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				mEditor.setSubscript();
+			}
+		});
+
+		findViewById(R.id.action_superscript).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				mEditor.setSuperscript();
+			}
+		});
+
+		findViewById(R.id.action_strikethrough).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				mEditor.setStrikeThrough();
+			}
+		});
+
+		findViewById(R.id.action_underline).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				mEditor.setUnderline();
+			}
+		});
+
+		findViewById(R.id.action_heading1).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				mEditor.setHeading(1);
+			}
+		});
+
+		findViewById(R.id.action_heading2).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				mEditor.setHeading(2);
+			}
+		});
+
+		findViewById(R.id.action_heading3).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				mEditor.setHeading(3);
+			}
+		});
+
+		findViewById(R.id.action_heading4).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				mEditor.setHeading(4);
+			}
+		});
+
+		findViewById(R.id.action_heading5).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				mEditor.setHeading(5);
+			}
+		});
+
+		findViewById(R.id.action_heading6).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				mEditor.setHeading(6);
+			}
+		});
+
+		findViewById(R.id.action_txt_color).setOnClickListener(new View.OnClickListener() {
+			private boolean isChanged;
+
+			@Override public void onClick(View v) {
+				mEditor.setTextColor(isChanged ? Color.BLACK : Color.RED);
+				isChanged = !isChanged;
+			}
+		});
+
+		findViewById(R.id.action_bg_color).setOnClickListener(new View.OnClickListener() {
+			private boolean isChanged;
+
+			@Override public void onClick(View v) {
+				mEditor.setTextBackgroundColor(isChanged ? Color.TRANSPARENT : Color.YELLOW);
+				isChanged = !isChanged;
+			}
+		});
+
+		findViewById(R.id.action_indent).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				mEditor.setIndent();
+			}
+		});
+
+		findViewById(R.id.action_outdent).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				mEditor.setOutdent();
+			}
+		});
+
+		findViewById(R.id.action_align_left).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				mEditor.setAlignLeft();
+			}
+		});
+
+		findViewById(R.id.action_align_center).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				mEditor.setAlignCenter();
+			}
+		});
+
+		findViewById(R.id.action_align_right).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				mEditor.setAlignRight();
+			}
+		});
+
+		findViewById(R.id.action_blockquote).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				mEditor.setBlockquote();
+			}
+		});
+
+		findViewById(R.id.action_insert_bullets).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				mEditor.setBullets();
+			}
+		});
+
+		findViewById(R.id.action_insert_numbers).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				mEditor.setNumbers();
+			}
+		});
+
+		findViewById(R.id.action_insert_image).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+//				mEditor.insertImage("http://www.1honeywan.com/dachshund/image/7.21/7.21_3_thumb.JPG",
+//						"dachshund");
+			}
+		});
+
+		findViewById(R.id.action_insert_link).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+//				mEditor.insertLink("https://github.com/wasabeef", "wasabeef");
+			}
+		});
+		findViewById(R.id.action_insert_checkbox).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				mEditor.insertTodo();
+			}
+		});
+
 	}
 
 	@Override
@@ -155,7 +320,7 @@ public class NoteRichEditor extends AnkiActivity {
 					finishWithAnimation(ActivityTransitionAnimation.NONE);
 				}
 				mEditorNote.values()[0] = front;
-				mEditorNote.values()[1] = rtEditText.getText(RTFormat.HTML);
+				mEditorNote.values()[1] = mEditor.getHtml();
 				mEditorNote.model().put("did", CardBrowser.mRestrictOnDeckId);
 				getCol().getModels().setChanged();
 			} catch (JSONException e) {
@@ -164,9 +329,9 @@ public class NoteRichEditor extends AnkiActivity {
 
 			DeckTask.launchDeckTask(DeckTask.TASK_TYPE_ADD_FACT, mAddNoteListener, new DeckTask.TaskData(mEditorNote));
 		}else {
-			String backHtml = rtEditText.getText(RTFormat.HTML);
+			String backHtml = mEditor.getHtml();
 			String newFront = noteFront.getText().toString();
-			boolean mChanged = !newFront.equals(mFront) || (backChanged && !backHtml.equals(mBack));
+			boolean mChanged = !newFront.equals(mFront) || (mBackChanged && !backHtml.equals(mBack));
 			if (mChanged) {
 				if (!mEditorNote.values()[0].equals(newFront)) {
 					mEditorNote.values()[0] = newFront;
@@ -174,7 +339,6 @@ public class NoteRichEditor extends AnkiActivity {
 				if (!mEditorNote.values()[1].equals(backHtml)) {
 					mEditorNote.values()[1] = backHtml;
 				}
-
 				result = RESULT_OK;
 			} else {
 				result = RESULT_CANCELED;

@@ -55,11 +55,11 @@ play {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:27.1.0'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
     // Note: the design support library can be quite buggy, so test everything thoroughly before updating it
-    implementation 'com.android.support:design:27.1.0'
-    implementation 'com.android.support:customtabs:27.1.0'
-    implementation 'com.android.support:recyclerview-v7:27.1.0'
+    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support:customtabs:26.1.0'
+    implementation 'com.android.support:recyclerview-v7:26.1.0'
     implementation 'io.requery:sqlite-android:3.16.0'
     implementation('com.afollestad.material-dialogs:core:0.8.6.2@aar') {
         //exclude group: 'com.android.support'  // uncomment to force our local support lib version
@@ -70,8 +70,9 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:2.7.1'
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'org.jsoup:jsoup:1.10.3'
+    implementation project(':richeditor')
     api project(':api')
-    implementation 'com.1gravity:android-rteditor:1.6.7'
+//    implementation 'com.1gravity:android-rteditor:1.6.7'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:1.10.19'
     // v1 while PowerMock does not fully support v2.

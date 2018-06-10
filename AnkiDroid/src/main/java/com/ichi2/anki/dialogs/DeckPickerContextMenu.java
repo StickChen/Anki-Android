@@ -95,6 +95,7 @@ public class DeckPickerContextMenu extends DialogFragment {
         Collection col = CollectionHelper.getInstance().getCol(getContext());
         long did = getArguments().getLong("did");
         ArrayList<Integer> itemIds = new ArrayList<>();
+        itemIds.add(CONTEXT_MENU_CARD_BROWSER);
         if (col.getDecks().isDyn(did)) {
             itemIds.add(CONTEXT_MENU_CUSTOM_STUDY_REBUILD);
             itemIds.add(CONTEXT_MENU_CUSTOM_STUDY_EMPTY);

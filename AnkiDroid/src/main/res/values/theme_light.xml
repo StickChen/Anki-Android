@@ -116,7 +116,7 @@ APIs. It's visible when there aren't enough decks to fill the screen.
         <item name="android:textColorSecondary">@color/prefs_item_light</item>
     </style>
 
-    <style name="NRE_ThemeLight" parent="@style/RTE_ThemeLight">
+    <style name="NRE_ThemeLight" parent="@style/Theme_Light">
         <item name="colorPrimary">@color/colorPrimaryLight</item>
         <item name="colorAccent">@color/colorAccentLight</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkLight</item>
