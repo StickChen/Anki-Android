@@ -18,21 +18,14 @@
             android:paddingLeft="10dp"
             android:maxLines="1"/>
 
-    <ScrollView
-            android:id="@+id/note_back_container"
+    <jp.wasabeef.richeditor.RichEditor
+            android:id="@+id/note_back"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/note_front"
             android:layout_above="@id/rte_toolbar_container"
-            android:fillViewport="true"
-            android:orientation="vertical">
-        <jp.wasabeef.richeditor.RichEditor
-                android:id="@+id/note_back"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-        />
-    </ScrollView>
+            android:background="@null"
+    />
 
 
     <HorizontalScrollView
@@ -50,6 +43,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
         >
+
+            <ImageButton
+                    android:id="@+id/action_clear"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/clear"
+            />
 
             <ImageButton
                     android:id="@+id/action_undo"

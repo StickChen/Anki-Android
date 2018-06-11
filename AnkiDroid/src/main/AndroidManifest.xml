@@ -242,6 +242,7 @@
                 android:name=".NoteRichEditor"
                 android:configChanges="keyboardHidden|orientation|locale|screenSize"
                 android:label="@string/title_activity_note_rich_editor"
+                android:windowSoftInputMode="adjustResize"
         />
         <activity
                 android:name="com.onegravity.rteditor.media.choose.MediaChooserActivity"/>

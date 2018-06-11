@@ -44,6 +44,7 @@ import com.ichi2.anki.dialogs.TagsDialog;
 import com.ichi2.anki.dialogs.TagsDialog.TagsDialogListener;
 import com.ichi2.anki.receiver.SdCardReceiver;
 import com.ichi2.anki.widgets.DeckDropDownAdapter;
+import com.ichi2.async.Connection;
 import com.ichi2.async.DeckTask;
 import com.ichi2.async.DeckTask.TaskData;
 import com.ichi2.compat.Compat;
@@ -307,8 +308,8 @@ public class CardBrowser extends NavigationDrawerActivity implements
             }
         }
     };
-
-
+    
+    
     private void onSearch() {
         mSearchTerms = mSearchView.getQuery().toString();
         if (mSearchTerms.length() == 0) {
@@ -334,6 +335,8 @@ public class CardBrowser extends NavigationDrawerActivity implements
         setContentView(R.layout.card_browser);
         initNavigationDrawer(findViewById(android.R.id.content));
         startLoadingCollection();
+        // 启用定时任务，不让在后台执行
+//        automaticSync();
     }
 
 
@@ -535,6 +538,8 @@ public class CardBrowser extends NavigationDrawerActivity implements
             WidgetStatus.update(this);
             UIUtils.saveCollectionInBackground(this);
         }
+//        timer.cancel();
+//        sync();
     }
 
 
@@ -545,6 +550,8 @@ public class CardBrowser extends NavigationDrawerActivity implements
         if (mUnmountReceiver != null) {
             unregisterReceiver(mUnmountReceiver);
         }
+//        timer.cancel();
+        sync();
     }
 
 
@@ -561,6 +568,7 @@ public class CardBrowser extends NavigationDrawerActivity implements
             }
             closeCardBrowser(RESULT_OK, data);
         }
+        sync();
     }
     
     @Override
@@ -648,6 +656,9 @@ public class CardBrowser extends NavigationDrawerActivity implements
                 Intent intentRich = new Intent(CardBrowser.this, NoteRichEditor.class);
                 intentRich.putExtra(NoteEditor.EXTRA_CALLER, NoteEditor.CALLER_CARDBROWSER_ADD);
                 startActivityForResultWithAnimation(intentRich, ADD_NOTE, ActivityTransitionAnimation.LEFT);
+                return true;
+            case R.id.action_sync:
+                sync();
                 return true;
             case R.id.action_add_card_from_card_browser:
                 Intent intent = new Intent(CardBrowser.this, NoteEditor.class);
@@ -1362,5 +1373,50 @@ public class CardBrowser extends NavigationDrawerActivity implements
             registerReceiver(mUnmountReceiver, iFilter);
         }
     }
-
+    
+    private Timer timer;
+    
+    private void automaticSync() {
+        
+        SharedPreferences preferences = AnkiDroidApp.getSharedPrefs(getBaseContext());
+        
+        String hkey = preferences.getString("hkey", "");
+        if (hkey.length() != 0 && preferences.getBoolean("automaticSyncMode", false) &&
+                Connection.isOnline()) {
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    sync();
+                }
+            }, 0, 15 * 60 * 1000);
+        }
+    }
+    
+    // Sync with Anki Web
+    public void sync() {
+        sync(null);
+    }
+    
+    public void sync(String syncConflictResolution) {
+        SharedPreferences preferences = AnkiDroidApp.getSharedPrefs(getBaseContext());
+        String hkey = preferences.getString("hkey", "");
+        Connection.sync(new Connection.TaskListener() {
+            @Override public void onPreExecute() {
+        
+            }
+    
+            @Override public void onProgressUpdate(Object... values) {
+        
+            }
+    
+            @Override public void onPostExecute(Connection.Payload data) {
+        
+            }
+    
+            @Override public void onDisconnected() {
+        
+            }
+        }, new Connection.Payload(new Object[] { hkey, preferences.getBoolean("syncFetchesMedia", true), syncConflictResolution }));
+    }
 }
