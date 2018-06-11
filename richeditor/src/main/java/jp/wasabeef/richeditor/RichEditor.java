@@ -378,6 +378,11 @@ public class RichEditor extends WebView {
     exec("javascript:RE.setTodo('" + Utils.getCurrentTime() + "');");
   }
 
+  public void insertCode() {
+    exec("javascript:RE.prepareInsert();");
+    exec("javascript:RE.insertCode('c');");
+  }
+
   public void focusEditor() {
     requestFocus();
     exec("javascript:RE.focus();");

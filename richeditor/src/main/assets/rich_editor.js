@@ -208,6 +208,10 @@ RE.setTodo = function(text) {
     var html = '<input type="checkbox" name="'+ text +'" value="'+ text +'"/> &nbsp;';
     document.execCommand('insertHTML', false, html);
 }
+RE.insertCode = function(text) {
+    var html = '<code>' + text + '</code>　';
+    document.execCommand('insertHTML', false, html);
+}
 
 RE.prepareInsert = function() {
     RE.backuprange();

@@ -153,11 +153,18 @@ public class NoteRichEditor extends AnkiActivity {
 			}
 		});
 
+		findViewById(R.id.action_code).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				mEditor.insertCode();
+			}
+		});
+
 		findViewById(R.id.action_bold).setOnClickListener(new View.OnClickListener() {
 			@Override public void onClick(View v) {
 				mEditor.setBold();
 			}
 		});
+
 
 		findViewById(R.id.action_italic).setOnClickListener(new View.OnClickListener() {
 			@Override public void onClick(View v) {

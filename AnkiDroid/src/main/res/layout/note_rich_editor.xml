@@ -72,40 +72,21 @@
             />
 
             <ImageButton
+                    android:id="@+id/action_code"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/code"
+            />
+
+            <ImageButton
                     android:id="@+id/action_bold"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@null"
                     android:contentDescription="@null"
                     android:src="@drawable/bold"
-            />
-
-            <ImageButton
-                    android:id="@+id/action_italic"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@null"
-                    android:contentDescription="@null"
-                    android:src="@drawable/italic"
-            />
-
-
-            <ImageButton
-                    android:id="@+id/action_strikethrough"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@null"
-                    android:contentDescription="@null"
-                    android:src="@drawable/strikethrough"
-            />
-
-            <ImageButton
-                    android:id="@+id/action_underline"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@null"
-                    android:contentDescription="@null"
-                    android:src="@drawable/underline"
             />
 
             <ImageButton
@@ -160,6 +141,34 @@
                     android:background="@null"
                     android:contentDescription="@null"
                     android:src="@drawable/h6"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_italic"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/italic"
+            />
+
+
+            <ImageButton
+                    android:id="@+id/action_strikethrough"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/strikethrough"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_underline"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/underline"
             />
 
             <ImageButton
