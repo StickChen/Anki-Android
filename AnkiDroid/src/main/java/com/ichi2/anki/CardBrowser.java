@@ -478,7 +478,7 @@ public class CardBrowser extends NavigationDrawerActivity implements
                 long cardId = Long.parseLong(getCards().get(mPositionInCardsList).get("id"));
                 sCardBrowserCard = getCol().getCard(cardId);
                 // start note editor using the card we just loaded
-                // TODO-cxl
+                // add by cxl 2018-6-9
                 Intent editCard = new Intent(CardBrowser.this, NoteRichEditor.class);
                 editCard.putExtra(NoteEditor.EXTRA_CALLER, NoteEditor.CALLER_CARDBROWSER_EDIT);
                 editCard.putExtra(NoteEditor.EXTRA_CARD_ID, sCardBrowserCard.getId());
@@ -509,6 +509,16 @@ public class CardBrowser extends NavigationDrawerActivity implements
         // set the currently selected deck
         if (mRestrictOnDeckId == null) {
             mRestrictOnDeckId = getIntent().getLongExtra("defaultDeckId", -1);
+        }
+        if (mRestrictOnDeckId == -1) {
+            try {
+                Long curCardDeck = getCol().getConf().getLong("curCardDeck");
+                if (curCardDeck != null) {
+                    mRestrictOnDeckId = curCardDeck;
+                }
+            } catch (JSONException e) {
+                Timber.i(e.getMessage(), e);
+            }
         }
         selectDropDownItem(getDeckPositionFromDeckId(mRestrictOnDeckId));
     }
@@ -795,6 +805,7 @@ public class CardBrowser extends NavigationDrawerActivity implements
             }
             try {
                 mRestrictOnDeckId = deck.getLong("id");     // 设置deskId
+                getCol().getConf().put("curCardDeck", Long.toString(mRestrictOnDeckId));
                 getCol().getDecks().select(mRestrictOnDeckId);
             } catch (JSONException e) {
                 Timber.e(e, "Could not get ID from deck");

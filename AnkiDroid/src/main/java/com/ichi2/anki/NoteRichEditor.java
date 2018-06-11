@@ -315,19 +315,20 @@ public class NoteRichEditor extends AnkiActivity {
 			mEditorNote = new Note(getCol(), model);
 			try {
 				String front = noteFront.getText().toString();
-				if (TextUtils.isEmpty(front)) {
+				String html = mEditor.getHtml();
+				if (TextUtils.isEmpty(front) && TextUtils.isEmpty(html)) {
 					setResult(RESULT_CANCELED);
 					finishWithAnimation(ActivityTransitionAnimation.NONE);
+					return;
 				}
 				mEditorNote.values()[0] = front;
-				mEditorNote.values()[1] = mEditor.getHtml();
+				mEditorNote.values()[1] = html;
 				mEditorNote.model().put("did", CardBrowser.mRestrictOnDeckId);
 				getCol().getModels().setChanged();
+				DeckTask.launchDeckTask(DeckTask.TASK_TYPE_ADD_FACT, mAddNoteListener, new DeckTask.TaskData(mEditorNote));
 			} catch (JSONException e) {
 				throw new RuntimeException(e);
 			}
-
-			DeckTask.launchDeckTask(DeckTask.TASK_TYPE_ADD_FACT, mAddNoteListener, new DeckTask.TaskData(mEditorNote));
 		}else {
 			String backHtml = mEditor.getHtml();
 			String newFront = noteFront.getText().toString();
@@ -338,6 +339,9 @@ public class NoteRichEditor extends AnkiActivity {
 				}
 				if (!mEditorNote.values()[1].equals(backHtml)) {
 					mEditorNote.values()[1] = backHtml;
+				}
+				if (mEditorNote.getTags().contains("xlnote")) {
+					mEditorNote.addTag("marked");   // 标记需要同步
 				}
 				result = RESULT_OK;
 			} else {
