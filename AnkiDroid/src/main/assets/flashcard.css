@@ -110,3 +110,46 @@ scale up, but not down.  */
 .night_mode .replaybutton svg {
   fill: white;
 }
+/* 自定义 */
+h1 {
+  font-size:1.5em!important;
+  font-weight:bold!important;
+  color:#005500!important;
+  margin-bottom:6px !important;
+  margin-top:6px !important;
+}
+h2 {
+  font-size:1.4em!important;
+  font-weight:bold!important;
+  color:#ff0000!important;
+  margin-bottom:5px!important;
+  margin-top:5px!important;
+}
+h3 {
+  font-size:1.3em!important;
+  font-weight:bold!important;
+  color:#0000ff!important;
+  margin-bottom:4px!important;
+  margin-top:4px!important;
+}
+h4 {
+  font-size:1.2em!important;
+  font-weight:bold!important;
+  color:#ff6820!important;
+  margin-bottom:3px!important;
+  margin-top:3px!important;
+}
+h5 {
+  font-size:1.1em!important;
+  font-weight:bold!important;
+  color:#009300!important;
+  margin-bottom:2px!important;
+  margin-top:2px!important;
+}
+h6 {
+  font-size:1.0em!important;
+  font-weight:bold!important;
+  color: #8b008b !important;
+  margin-bottom:1px!important;
+  margin-top:1px!important;
+}

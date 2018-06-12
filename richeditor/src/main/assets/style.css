@@ -49,11 +49,12 @@ code{
   border: 1px solid #ddd;
   padding: 1px;
 }
-
+/*
 body *{
   margin-top:0 !important;
   margin-bottom:0 !important;
 }
+*/
 h1 {
   font-size:1.5em!important;
   font-weight:bold!important;
@@ -105,8 +106,8 @@ blockquote {
   margin-bottom:0!important;
 }
 p{
-  /*text-indent:28px!important;
-  margin-top:10px!important;*/
+  margin-top: 0!important;
+  margin-bottom: 16px!important;
 }
 table {
   border-collapse:collapse!important;
