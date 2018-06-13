@@ -1163,7 +1163,9 @@ public class CardBrowser extends NavigationDrawerActivity implements
             data.putExtra("originalDeck", getIntent().getLongExtra("selectedDeck", 0L));
         }
         // Pass a flag to say whether "All Decks" was selected so that the calling Activity can remember it
-        data.putExtra("allDecksSelected", mActionBarSpinner.getSelectedItemPosition() == 0);
+        if (mActionBarSpinner != null) {
+            data.putExtra("allDecksSelected", mActionBarSpinner.getSelectedItemPosition() == 0);
+        }
         // Set result and finish
         setResult(result, data);
         finishWithAnimation(ActivityTransitionAnimation.RIGHT);
