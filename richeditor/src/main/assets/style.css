@@ -49,12 +49,10 @@ code{
   border: 1px solid #ddd;
   padding: 1px;
 }
-/*
 body *{
   margin-top:0 !important;
   margin-bottom:0 !important;
 }
-*/
 h1 {
   font-size:1.5em!important;
   font-weight:bold!important;
@@ -116,4 +114,10 @@ table {
 td {
   border-collapse:collapse!important;
   border:1px solid #bbbbbb!important;
+}
+ul {
+  padding-left: 2em;
+}
+ul {
+  margin: 0;
 }

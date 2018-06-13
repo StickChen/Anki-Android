@@ -659,6 +659,7 @@ public class CardBrowser extends NavigationDrawerActivity implements
                 return true;
             case R.id.action_sync:
                 sync();
+                searchCards();
                 return true;
             case R.id.action_add_card_from_card_browser:
                 Intent intent = new Intent(CardBrowser.this, NoteEditor.class);
