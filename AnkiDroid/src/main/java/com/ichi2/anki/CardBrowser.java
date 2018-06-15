@@ -374,7 +374,7 @@ public class CardBrowser extends NavigationDrawerActivity implements
             }
         });
         mActionBarSpinner.setVisibility(View.VISIBLE);
-
+        
         try {
             mOrder = CARD_ORDER_NONE;
             String colOrder = getCol().getConf().getString("sortType");
@@ -494,6 +494,9 @@ public class CardBrowser extends NavigationDrawerActivity implements
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
                 mPositionInCardsList = position;
                 Map<String, String> card = getCards().get(mPositionInCardsList);
+                // add by cxl 2018-6-15
+                long cardId = Long.parseLong(getCards().get(mPositionInCardsList).get("id"));
+                sCardBrowserCard = getCol().getCard(cardId);
                 int flags = Integer.parseInt(card.get("flags"));
                 String cardName = card.get("sfld");
                 boolean isMarked = (flags == 2 || flags == 3);
