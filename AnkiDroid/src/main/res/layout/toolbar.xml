@@ -11,12 +11,12 @@
         app:navigationIcon="?attr/homeAsUpIndicator"
         android:background="?attr/colorPrimary"
         android:theme="@style/ActionBarStyle">
-        <Spinner
+        <com.ichi2.anki.ext.CustomSpinner
             android:id="@+id/toolbar_spinner"
             android:background="?attr/selectableItemBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:popupTheme="@style/ActionBar.Popup"/>
+            />
     </android.support.v7.widget.Toolbar>
 </merge>

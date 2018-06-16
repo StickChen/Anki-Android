@@ -42,6 +42,7 @@ import com.ichi2.anki.dialogs.CardBrowserMySearchesDialog;
 import com.ichi2.anki.dialogs.CardBrowserOrderDialog;
 import com.ichi2.anki.dialogs.TagsDialog;
 import com.ichi2.anki.dialogs.TagsDialog.TagsDialogListener;
+import com.ichi2.anki.ext.CustomSpinner;
 import com.ichi2.anki.receiver.SdCardReceiver;
 import com.ichi2.anki.widgets.DeckDropDownAdapter;
 import com.ichi2.async.Connection;
@@ -129,7 +130,7 @@ public class CardBrowser extends NavigationDrawerActivity implements
         "interval"};
     private long mLastRenderStart = 0;
     private DeckDropDownAdapter mDropDownAdapter;
-    private Spinner mActionBarSpinner;
+    private CustomSpinner mActionBarSpinner;
     private boolean mReloadRequired = false;
 
     /**
@@ -360,7 +361,7 @@ public class CardBrowser extends NavigationDrawerActivity implements
         if (mActionBar != null) {
             mActionBar.setDisplayShowTitleEnabled(false);
         }
-        mActionBarSpinner = (Spinner) findViewById(R.id.toolbar_spinner);
+        mActionBarSpinner = (CustomSpinner) findViewById(R.id.toolbar_spinner);
         mActionBarSpinner.setAdapter(mDropDownAdapter);
         mActionBarSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
@@ -374,7 +375,21 @@ public class CardBrowser extends NavigationDrawerActivity implements
             }
         });
         mActionBarSpinner.setVisibility(View.VISIBLE);
+        mActionBarSpinner.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override public void onFocusChange(View view, boolean b) {
+                Timber.d("onFocusChange," + b);
         
+            }
+        });
+        mActionBarSpinner.setSpinnerEventsListener(new CustomSpinner.OnSpinnerEventsListener() {
+            @Override public void onSpinnerOpened(Spinner spinner) {
+                Timber.d("onSpinnerOpened");
+            }
+    
+            @Override public void onSpinnerClosed(Spinner spinner) {
+                Timber.d("onSpinnerClosed");
+            }
+        });
         try {
             mOrder = CARD_ORDER_NONE;
             String colOrder = getCol().getConf().getString("sortType");
