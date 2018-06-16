@@ -18,6 +18,9 @@
             android:title="@string/sync_title"
             ankidroid:showAsAction="always|collapseActionView"/>
     <item
+            android:id="@+id/action_reviewer"
+            android:title="开始复习"/>
+    <item
             android:id="@+id/action_add_card_from_card_browser"
             android:icon="@drawable/ic_add_white_24dp"
             android:title="@string/card_editor_add_card"

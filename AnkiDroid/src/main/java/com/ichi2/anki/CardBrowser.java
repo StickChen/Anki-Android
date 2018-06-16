@@ -679,6 +679,9 @@ public class CardBrowser extends NavigationDrawerActivity implements
                 sync();
                 searchCards();
                 return true;
+            case R.id.action_reviewer:
+                openReviewer();
+                return true;
             case R.id.action_add_card_from_card_browser:
                 Intent intent = new Intent(CardBrowser.this, NoteEditor.class);
                 intent.putExtra(NoteEditor.EXTRA_CALLER, NoteEditor.CALLER_CARDBROWSER_ADD);
@@ -1439,5 +1442,11 @@ public class CardBrowser extends NavigationDrawerActivity implements
         
             }
         }, new Connection.Payload(new Object[] { hkey, preferences.getBoolean("syncFetchesMedia", true), syncConflictResolution }));
+    }
+    
+    private void openReviewer() {
+        Intent reviewer = new Intent(this, Reviewer.class);
+        startActivityForResultWithAnimation(reviewer, REQUEST_REVIEW, ActivityTransitionAnimation.LEFT);
+        getCol().startTimebox();
     }
 }
