@@ -155,7 +155,7 @@ public class NoteRichEditor extends AnkiActivity {
 
 		findViewById(R.id.action_code).setOnClickListener(new View.OnClickListener() {
 			@Override public void onClick(View v) {
-				mEditor.insertCode();
+				mEditor.insertCode("``");
 			}
 		});
 

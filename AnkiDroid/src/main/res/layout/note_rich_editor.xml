@@ -144,6 +144,42 @@
             />
 
             <ImageButton
+                    android:id="@+id/action_insert_bullets"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/bullets"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_insert_numbers"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/numbers"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_indent"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/indent"
+            />
+
+            <ImageButton
+                    android:id="@+id/action_outdent"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:src="@drawable/outdent"
+            />
+
+            <ImageButton
                     android:id="@+id/action_italic"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
@@ -190,23 +226,7 @@
             />
 
 
-            <ImageButton
-                    android:id="@+id/action_indent"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@null"
-                    android:contentDescription="@null"
-                    android:src="@drawable/indent"
-            />
 
-            <ImageButton
-                    android:id="@+id/action_outdent"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@null"
-                    android:contentDescription="@null"
-                    android:src="@drawable/outdent"
-            />
 
             <ImageButton
                     android:id="@+id/action_align_left"
@@ -235,23 +255,7 @@
                     android:src="@drawable/justify_right"
             />
 
-            <ImageButton
-                    android:id="@+id/action_insert_bullets"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@null"
-                    android:contentDescription="@null"
-                    android:src="@drawable/bullets"
-            />
 
-            <ImageButton
-                    android:id="@+id/action_insert_numbers"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@null"
-                    android:contentDescription="@null"
-                    android:src="@drawable/numbers"
-            />
 
             <ImageButton
                     android:id="@+id/action_blockquote"
