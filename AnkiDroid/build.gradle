@@ -3,30 +3,34 @@ apply plugin: 'com.github.triplet.play'
 def homePath = System.properties['user.home']
 android {
     compileSdkVersion 26
-
+    buildToolsVersion '27.0.3'
+    signingConfigs {
+        release {
+            storeFile file('D:/Dev_Tools/Android/LifeGo.jks')
+            keyAlias 'LifeGo'
+            storePassword '123456'
+            keyPassword '123456789'
+        }
+    }
     defaultConfig {
         applicationId "com.ichi2.anki"
         minSdkVersion 15
         targetSdkVersion 25
         testApplicationId "com.ichi2.anki.tests"
         vectorDrawables.useSupportLibrary = true
+        signingConfig signingConfigs.release
     }
     lintOptions {
         abortOnError false
         disable 'TypographyEllipsis'
     }
-    signingConfigs {
-        release {
-            storeFile file("${homePath}/src/android-keystore")
-            keyAlias "nrkeystorealias"
-            storePassword System.getenv("KSTOREPWD")
-            keyPassword System.getenv("KEYPWD")
-        }
-    }
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
             signingConfig signingConfigs.release
         }
     }
